@@ -80,6 +80,31 @@
             $this->dbh->execute();
             return $this->dbh->rowCount();
         }
+        public function hapusDataMahasiswa($id){
+            $query = "DELETE FROM mahasiswa WHERE id =:id";
+            $this->dbh->query($query);
+            $this->dbh->bind('id', $id);
+            $this->dbh->execute();
+            return $this->dbh->rowCount();
+        }
+        public function ubahDataMahasiswa($data){
+            $query = "UPDATE mahasiswa SET nama = :nama, nrp = :nrp, email = :email, jurusan = :jurusan WHERE id = :id";
+            $this->dbh->query($query);
+            $this->dbh->bind('nama', $data['nama']);
+            $this->dbh->bind('nrp', $data['nim']);
+            $this->dbh->bind('email', $data['email']);
+            $this->dbh->bind('jurusan', $data['jurusan']);
+            $this->dbh->bind('id', $data['id']);
+            $this->dbh->execute();
+            return $this->dbh->rowCount();
+        }
+        public function cariDataMahasiswa(){
+            $keyword = $_POST['keyword'];
+            $query = "SELECT * FROM mahasiswa WHERE nama LIKE :keyword";
+            $this->dbh->query($query);
+            $this->dbh->bind('keyword', "%$keyword%");
+            return $this->dbh->resultSet();
+        }
      
     }
 ?>
